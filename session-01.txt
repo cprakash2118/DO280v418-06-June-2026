@@ -1,0 +1,80 @@
+https://github.com/cprakash2118/DO280v418-06-June-2026
+
+Forrester Wave™: Multicloud Container Platforms, Q3 2025
+https://reprint.forrester.com/reports/the-forrester-wavetm-multicloud-container-platforms-q3-2025-f3367e46/index.html
+
+### Point-01:-
+
+Technology:- Multicloud Container Platforms
+Product:- Red Hat OpenShift (Hybrid Cloud)
+
+1-# Cloud services editions (core based)
+ - Red Hat OpenShift Service on AWS    [ROSA; Cloud Platforms -  AWS Cloud]
+ - Microsoft Azure Red Hat OpenShift   [ARO ; Cloud Platforms - MS Azure Cloud]
+ - Red Hat OpenShift Dedicated         [Dedicated ; Cloud Platforms - GCP/AWS; POC=RH]
+ - Red Hat OpenShift on IBM Cloud      [RHO on IBM ; Cloud Platforms - IBM Cloud ]
+
+2-# Self-managed editions (Socket/core based)
+ - Red Hat OpenShift Kubernetes Engine      [Basic; RHOKE]
+ - Red Hat OpenShift Container Platform     [Standard; RHOCP]
+ - Red Hat OpenShift Virtualization Engine  [Add-Ons; RHOVE]
+ - Red Hat OpenShift Platform Plus          [Add-Ons; RHOPP]
+
+https://www.cncf.io/training/certification/software-conformance/
+https://training.hawkstack.com/redhat/openshift-skill-path
+
+
+3-# Services & add-ons
+ - Red Hat OpenShift AI                                 [AI267/EX267]
+ - Red Hat OpenShift Lightspeed         
+ - Red Hat OpenShift Virtualization                     [DO156/256/316/336/346; EX156/316/336]
+ - Red Hat Quay
+ - Red Hat Advanced Cluster Management for Kubernetes   [DO432/EX432 - RHACM - Multi Cluster Management]
+ - Red Hat Advanced Cluster Security for Kubernetes     [DO430/EX430 - RHACS - Multi Cluster Security]
+ - Red Hat Advanced Developer Suite                     
+ - Red Hat OpenShift Consulting
+
+https://www.redhat.com/en/resources/openshift-skill-paths-datasheet
+https://www.redhat.com/en/services/certifications
+
+
+
+### Point-02:-
+Classroom environment (FYI- You consider this like a prod setup and relate).
+
+1-) Users Details:-
+    - Login to VMs/Servers
+	  student/student [sudo access]
+	  root/redhat 
+	  
+	- Login to Red Hat OpenShift cluster.
+      admin/redhatocp [it's cluster-admin access ; which is same as root access w.r.t Linux OS]
+      developer/developer [basic user]
+
+    - Login to OCP cluster, few required resources.
+      API URL:- 
+	     - https://api.clusterName.baseDomain:6443 
+		   Example:
+		   - https://api.ocp4.example.com:6443 
+		   
+	$ oc login -u admin -p redhatocp https://api.ocp4.example.com:6443  	   
+
+	  Web URL:- As per LAB (DO280).
+       https://console-openshift-console.apps.ocp4.example.com 	(admin/redhatocp).
+
+2-) Domain & Networks:-
+    
+	Network Name              Domain Name                IP Range 
+    Classroom Network         example.com                172.25.252.0/24 
+    Student Network           lab.example.com            172.25.250.0/24 
+    Cluster Network           ocp4.example.com           192.168.50.0/24 
+
+
+3-) VMs/Servers:-
+   - workstation.lab.example.com     - Jump server; Connect to OCp cluster via CLI/GUI.
+   - bastion.lab.example.com         - Connect Student to Classroom network; It also act as DNS server.
+   - classroom.example.com           - Proxy node to connect to Internet (quay.io;github.com etc).
+   - utility.lab.example.com         - Main node - Imp services like DHCP, PXE/KickStart, HAproxy, tftp, Apache Service.
+   - registry.ocp4.example.com       - Images & code repo also (git.ocp4.exampe.com)
+   - idm.ocp4.example.com            - LDAP server.
+   - master01.ocp4.example.com       - OCP cluster node (Master/worker)    
