@@ -1,0 +1,279 @@
+    1  exit
+    2  exit
+    3  exit
+    4  exit
+    5  exit
+    6  exit
+    7  mkdir NEW
+    8  cd NEW/
+    9  pwd
+   10  ll
+   11  cat /etc/rht
+   12  which helm 
+   13  curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+   14  l
+   15  ll
+   16  chmod 755 get_helm.sh 
+   17  vim get_helm.sh 
+   18  ./get_helm.sh 
+   19  /usr/local/bin/helm version 
+   20  helm create BookMyShow 
+   21  tree BookMyShow/
+   22  vim BookMyShow/Chart.yaml 
+   23  helm show chart BookMyShow/
+   24  vim BookMyShow/Chart.yaml 
+   25  helm show chart BookMyShow/
+   26  helm show values BookMyShow/
+   27  vim BookMyShow/values.yaml 
+   28  tree
+   29  vim BookMyShow/values.yaml 
+   30  helm show values BookMyShow/
+   31  helm show chart BookMyShow/
+   32  tree
+   33  vim BookMyShow/templates/service.yaml 
+   34  vim BookMyShow/templates/deployment.yaml 
+   35  helm show chart BookMyShow/
+   36  vim BookMyShow/values.yaml 
+   37  vim BookMyShow/templates/deployment.yaml 
+   38  vim -O BookMyShow/values.yaml BookMyShow/templates/deployment.yaml 
+   39  lab start packaged-charts 
+   40  cd
+   41  lab start packaged-charts 
+   42  helm repo list
+   43  helm repo add anyname-help-repo-name http://helm.ocp4.example.com/charts
+   44  helm repo list
+   45  helm search repo --help |less
+   46  helm search repo --versions
+   47  helm repo list
+   48  helm search repo --versions anyname-help-repo-name
+   49  helm show values anyname-help-repo-name/etherpad --version 0.0.7
+   50  helm show values anyname-help-repo-name/etherpad --version 0.0.6
+   51  helm show values anyname-help-repo-name/etherpad --version 0.0.6 |less
+   52  helm search repo --versions anyname-help-repo-name
+   53   oc new-project packaged-charts-development
+   54  oc project -q 
+   55  oc get all
+   56  #helm install example-app anyname-help-repo-name/etherpad --version 0.0.6 -f 
+   57  vim value.yaml 
+   58  oc project -q 
+   59  helm install example-app anyname-help-repo-name/etherpad --version 0.0.6 -f value.yaml 
+   60  oc get pods
+   61  oc get route 
+   62  oc get pvc 
+   63  oc get sc
+   64  ssh lab@utility
+   65  oc get pods
+   66  helm list 
+   67  #helm install production 
+   68  helm repo list 
+   69  #helm install production anyname-help-repo-name 
+   70  helm repo list 
+   71  helm repo list anyname-help-repo-name --version 
+   72  helm repo list anyname-help-repo-name --versions
+   73  helm repo list anyname-help-repo-name 
+   74  helm repo list 
+   75  helm repo show anyname-help-repo-name --version 
+   76  helm repo search anyname-help-repo-name --version 
+   77  helm repo search anyname-help-repo-name version 
+   78  helm search repo --versions
+   79  helm search repo anyname-help-repo-name/etherpad --versions
+   80  vim value.yaml 
+   81  oc project -q 
+   82  oc get pods
+   83  oc new-project prod
+   84  oc project  packaged-charts-production
+   85  history  | grep new-pro
+   86  oc project  packaged-charts-production
+   87  oc project  packaged-charts-development 
+   88  oc get pods
+   89  helm repo list 
+   90  helm show chart 
+   91   oc new-project packaged-charts-production
+   92  oc project -q 
+   93  vim value.yaml 
+   94  # helm install production do280-repo/etherpad
+   95  helm search repo anyname-help-repo-name/etherpad --versions
+   96  # helm install production anyname-help-repo-name/etherpad -f value.yaml --version 0.0.7
+   97   helm install production anyname-help-repo-name/etherpad -f value.yaml --version 0.0.7
+   98  vim value.yaml 
+   99  oc get pods
+  100   helm upgrade production anyname-help-repo-name/etherpad -f value.yaml 
+  101  oc get pods
+  102  helm show chart anyname-help-repo-name/etherpad
+  103  helm show values anyname-help-repo-name/etherpad
+  104  helm repo list 
+  105  helm repo add metallb https://metallb.github.io/metallb
+  106  history  | grep search 
+  107  helm search repo --versions
+  108  ssh lab@utility
+  109  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+  110  oc get nodes 
+  111  oc version 
+  112  oc debug node/master01 
+  113  #https://console-openshift-console.apps.ocp4.example.com 
+  114  oc whoami --show-console 
+  115  oc get nodes
+  116  kubectl get nodes
+  117  oc version 
+  118  nslookup quay.io
+  119  nslookup google.com
+  120  traceroute google.com 
+  121  nslookup 172.25.252.254
+  122  nslookup registry.ocp4.example.com
+  123  nslookup git.ocp4.example.com
+  124  sleep 120 ; echo We will wait 2 mins and will start .
+  125  cat /etc/rht 
+  126  oc version 
+  127  oc get template 
+  128  oc get template -n openshift 
+  129  oc get template -n openshift postgresql-ephemeral -o yaml > postgresql-ephemeral.yaml 
+  130  vim postgresql-ephemeral.yaml 
+  131  cat postgresql-ephemeral.yaml | grep kind 
+  132  oc get all
+  133  vim postgresql-ephemeral.yaml
+  134  vim exapmle.sh
+  135  chmod 755 exapmle.sh 
+  136  ./exapmle.sh 
+  137  ./exapmle.sh 1 2 3 4 5 
+  138  vim exapmle.sh
+  139  ./exapmle.sh 1 2 3 4 5 
+  140  ./exapmle.sh 1 2 
+  141  ./exapmle.sh linux os do280 do380 
+  142  oc get template -n openshift l
+  143  oc get template -n openshift 
+  144  ./exapmle.sh linux os do280 do380 
+  145  ./exapmle.sh 1 2 3 4 5 
+  146  ./exapmle.sh 1 
+  147  ./exapmle.sh 1 44 
+  148  oc get template -n openshift 
+  149  vim postgresql-ephemeral.yaml 
+  150  oc describe template postgresql-ephemeral |less
+  151  oc describe template postgresql-ephemeral -n openshift |less
+  152   oc process --parameters postgresql-ephemeral -n openshift
+  153  #MEMORY_LIMIT=512Mi 
+  154  -p MEMORY_LIMIT=10Gi 
+  155  #-p MEMORY_LIMIT=10Gi 
+  156   oc process --parameters postgresql-ephemeral -n openshift
+  157   oc process --parameters -f  postgresql-ephemeral.yaml 
+  158  #oc new-app --name myapp httpd 
+  159  # oc new-app --template=cache-service -p APPLICATION_USER=my-user
+  160   oc process --parameters -f  postgresql-ephemeral.yaml -p POSTGRESQL_USER=chandra > new-temp.yaml 
+  161   oc process -f  postgresql-ephemeral.yaml -p POSTGRESQL_USER=chandra > new-temp.yaml 
+  162  vim new-temp.yaml 
+  163   oc process -f  postgresql-ephemeral.yaml -p POSTGRESQL_USER=chandra -o yaml > new-temp.yaml 
+  164  vim new-temp.yaml 
+  165  lab start packaged-templates
+  166  ls 
+  167  cd DO280/
+  168  ll
+  169  cd labs/
+  170  ll
+  171  cd packaged-templates/
+  172  pwd
+  173  ll
+  174  vim mysql-persistent-template.yaml 
+  175  tree
+  176  cat mysql-persistent-template.yaml | grep kind 
+  177  cat custom-template/roster-template.yaml | grep kind 
+  178   oc new-project packaged-templates
+  179  oc project -q 
+  180  oc get all
+  181  ll
+  182  oc process --parameters -f mysql-persistent-template.yaml 
+  183  # oc new-app --template=mysql-persistent 
+  184  vim mysql-persistent-template.yaml 
+  185  oc get template -n openshift 
+  186  oc new-app --template=mysql-persistent  -p MYSQL_USER=user1  -p MYSQL_PASSWORD=mypasswd
+  187  oc get pods 
+  188  oc rsh mysql-5ddb6d4b75-vhnjp 
+  189  ll
+  190  cd  custom-template/
+  191  pwd
+  192  ll
+  193  oc get pods
+  194  oc get template
+  195  oc project -q
+  196  oc get template
+  197  oc get template -o openshift 
+  198  oc get template -n openshift 
+  199  ll
+  200  vim roster-template.yaml 
+  201  oc create -f roster-template.yaml 
+  202  oc get pods
+  203  oc get template
+  204  oc process roster-template  -p MYSQL_USER=user1 -p MYSQL_PASSWORD=mypasswd -p INIT_DB=true -o yaml  > new-tmp.yaml 
+  205  vim new-tmp.yaml 
+  206  oc process roster-template  -p MYSQL_USER=user1 -p MYSQL_PASSWORD=mypasswd -p INIT_DB=true -o yaml  |oc apply -f -
+  207  oc get pods
+  208  oc rsh mysql-5ddb6d4b75-vhnjp 
+  209  oc get pods 
+  210  oc get svc 
+  211  oc get deploymentconfig 
+  212  oc get pods
+  213  oc get deploymwent 
+  214  oc get deploy
+  215  oc get route 
+  216  oc get pods
+  217  oc rsh mysql-5ddb6d4b75-vhnjp 
+  218  for x in {1..3}; do sleep 60; echo $x min over; done
+  219  cd
+  220  ll
+  221  cd DO280/
+  222  pwd
+  223  ll
+  224  cd labs/
+  225  pwd
+  226  ll
+  227  tree
+  228  vim packaged-templates/custom-template/roster-template.yaml 
+  229  oc get deployment do280-roster 
+  230  oc edit deployment do280-roster 
+  231  podman pull registry.ocp4.example.com:8443/redhattraining/do280-roster:v1
+  232  podman login registry.ocp4.example.com:8443 --tls-verify false 
+  233  podman login registry.ocp4.example.com:8443 
+  234  cd
+  235  lab start packaged-charts 
+  236  nslookup registry.ocp4.example.com
+  237  nslookup git.opc4.example.com
+  238  nslookup git.ocp4.example.com
+  239  dig git.ocp4.example.com
+  240  dig registry.ocp4.example.com
+  241  oc version 
+  242  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+  243  oc whoami 
+  244  oc whoami -t
+  245  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+  246  oc whoami -t
+  247  oc whoami 
+  248  oc login --token=sha256~WaTK76p3CZW21tTqHT1D712tLfBg-6k2iqM9q5iKLok --server https://api.ocp4.example.com:6443
+  249  oc whoami 
+  250  oc whoami --loglevel 7 
+  251  cat /home/student/.kube/config
+  252  mv ~/.kube /tmp/
+  253  oc whoami 
+  254  oc login --token=sha256~WaTK76p3CZW21tTqHT1D712tLfBg-6k2iqM9q5iKLok --server https://api.ocp4.example.com:6443
+  255  oc whoami 
+  256  oc whoami --loglevel 7 
+  257  oc get nodes
+  258  oc debug node/master01 
+  259  hostname -f
+  260  cat /etc/redhat-release 
+  261  uname -r
+  262  oc get nodes
+  263  oc --help |less
+  264  oc whoami --loglevel 7 
+  265  cat /home/student/.kube/config
+  266  oc whoami 
+  267  oc logout 
+  268  oc whoami 
+  269  cat /home/student/.kube/config
+  270  oc login --token=sha256~WaTK76p3CZW21tTqHT1D712tLfBg-6k2iqM9q5iKLok --server https://api.ocp4.example.com:6443
+  271  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+  272  oc get nodes
+  273  ssh root@api.ocp4.example.com
+  274  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+  275  #192.168.50.254:6443
+  276  nslookup api.ocp4.example.com
+  277  #192.168.50.10:6443
+  278  oc get nodes -o wide 
+  279  history > history-07-June-2026.txt 
