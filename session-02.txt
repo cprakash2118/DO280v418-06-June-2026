@@ -1,0 +1,141 @@
+https://github.com/cprakash2118/DO280v418-06-June-2026
+
+POint-1# Product - "Red Hat OpenShift"
+POint-2# Classroom Environment (Relate with prod).
+
+POint-3#
+TOC - Table of Contents 
+Phase-01-) 
+Unit-3# Authentication & Auhotrization.
+   - Authentication via IdP (htpasswd)
+   - Auhotrization via OAuth 
+
+Unit-1# Declarative Resource Management
+   - Resource Manifest (Express k8s/ocp resources in YAML/JSON)
+   - Kustomization & Overlay  
+   FYI- Via GitOps (git.ocp4.example.com)
+   
+Unit-2# Deploying Packaged Applications
+   - OpenShift Templates 
+   - Helm Chart 
+
+
+
+Phase-02-)
+Unit-4# Networking & Network Security
+ - Networking - CNI (Container Network Interface ; Default CNI - OVNKubernetes)
+ - Networking - Pod/Service network.
+ - Protecting External Traffic with TLS (https-Edge/Passthrough/Reencryption)
+ - Configuring Network Policies         
+ - Protecting Internal Traffic with TLS 
+
+Unit-5# Exposing non-HTTP/SNI Applications
+ - Load Balancer Services (Service - NodePart, LoadBalancer, CLusterIP)
+ - Configure Multus Secondary Networks (2ndry CNI - Multus CNI)
+ 
+Unit-6-# Enabling Developer Self-service
+ - Project and Cluster Quotas (ResourceQuota)
+ - Per-Project Resource Constraints: Limit Ranges (LimitRange)
+ - The Project Template and the Self-provisioner Role 
+ 
+Unit-7-# Managing Kubernetes Operators
+ - Kubernetes Operators and the Operator Lifecycle Manager (OLM)
+ - Installing Operators by Using the Web Console 
+ - Installing Operators with the CLI 
+
+Unit-8-# Application Security
+ - Controlling Application Permissions with Security Context Constraints 
+ - Allowing Application Access to Kubernetes APIs 
+ - Cluster and Node Maintenance with Kubernetes Cron Jobs 
+ 
+Unit-9-# OpenShift Updates
+ - Updating Clusters 
+ - Detecting Deprecated Kubernetes API Usage 
+ - Updating Operators with the OLM 
+ - OpenShift Updates
+ 
+ 
+----------------------------------------------------
+Point-04#
+Phase-01-) 
+Unit-3# Authentication & Auhotrization.
+   - Authentication via IdP (htpasswd)
+   - Auhotrization via OAuth 
+
+Unit-1# Declarative Resource Management
+   - Resource Manifest (Express k8s/ocp resources in YAML/JSON)
+   - Kustomization & Overlay  
+   FYI- Via GitOps (git.ocp4.example.com)
+   
+Unit-2# Deploying Packaged Applications
+   - OpenShift Templates 
+   - Helm Chart 
+   
+
+Let's start:-
+- Red Hat OpenShift/Kubernetes cluster 
+  - master nodes 
+  - worker nodes (infra/storage/custom/xyz etc).
+  
+- Kubernetes Vs OpenShift 
+- Kubernetes Layout 
+  Reference POint (CUDO - Customer Documentation)
+  - https://kubernetes.io
+  - https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+  - https://kubernetes.io/docs/setup/production-environment/container-runtimes/
+  - https://github.com/cprakash2118/kubernetes-projects
+  - https://github.com/cprakash2118/kubernetes-projects/blob/main/project-01-screenshot.png
+  
+  
+  Layer-06 - End user application like Banking, Telco etc.
+  Layer-05 - Certified k8s add-ons services (auth, monitoring, logging, etc - w.r.t namespace)
+  Layer-04 - Certified k8s deployment/installation [Installing kubeadm (Kubernetes v1.34)]
+             FYI- kubelet(systemd),kube-apiserver,etcd,kube-controller-manager,kube-scheduler 
+  Layer-03 - Install/Deploy "Container Run Time" - Cri-o/Containerd/docker/mcr 
+             FYI- crio has been selected - as systemd service.
+  Layer-02 - Operating System (OS) - RHEL/CentOS/Suse - RHEL9 selected (FYI- RHEL9 installed on VM).
+  Layer-01 - Infrastructure - Bare metal/Virtual Machine/Cloud Instance  - Virtual Machine Selected 
+  
+OpenShift Layout:-
+https://docs.redhat.com/en/documentation/openshift_container_platform/4.18
+
+Layer-08 - End user application like Banking, Telco etc.
+Layer-07 - Red Hat OpenShift Platform Plus (Add-ons) 
+Layer-06 - Red Hat OpenShift Container Platform 
+Layer-05 - Red Hat OpenShift Kubernetes Engine
+Layer-04 - Certified k8s deployment/installation [Installing Kubernetes based on RHEL coreOS version]
+             FYI- kubelet(systemd),kube-apiserver,etcd,kube-controller-manager,kube-scheduler
+Layer-03 - Install/Deploy "Container Run Time" - Cri-o
+           FYI- No manual deployment- installation via "openshift-install as installer"
+Layer-02 - Operating System (OS) - RHEL coreOS [Changes on RHCOS via MCO]
+           FYI- No manual deployment- installation via "openshift-install as installer"
+Layer-01 - Infrastructure - Bare metal/Virtual Machine/Cloud Instance  -  Virtual Machine Selected 
+
+
+- Consider OpenShift cluster (3 master nodes , N worker nodes).
+- Login to OCP cluster ?
+  1- Token based authentication 
+  2- Certificate based authentication
+ 
+- Taken based authentication.
+  - Authentication done via Identity Provider (IdP) only.
+  - List of IdPs.
+    Example:- htpasswd, LDAP, Active DIrectory, OpenID Connect - PingIdentity, RHSSO etc.
+  - On behalf of OpenShift - OAuth deal with IdPs.
+  - So OAuth is an identity Broker w.r.t OpenShift (It's built-in service w.r.t Red Hat OpenShift).
+  
+   Authentication - ssh login to server 
+   Auhotrization  - Once logged in to user, "sudo" access 
+   
+  - What you required for token based authentication w.r.t Red Hat OpenShift?
+    This is for CLI authentication.
+	- username 
+	- password 
+	- API URL 
+	or 
+	- token 
+	- API URL 
+	
+	$ oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+	or 
+	$ oc login --token kjahdkjahdkja --server https://api.ocp4.example.com:6443
