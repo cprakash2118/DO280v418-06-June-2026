@@ -1,0 +1,100 @@
+
+- Consider OpenShift cluster (3 master nodes , N worker nodes).
+- HOw to Login to OCP cluster ?
+  1- Token based authentication 
+  2- Certificate based authentication.
+  
+1-# Token based authentication  
+   User Name - admin 
+   Password  - redhatocp 
+   API URL   - https://api.ocp4.example.com:6443 
+               https://api.clusterName.baseDomain:6443 
+			   
+   
+   Login to OCP cluster:-   
+   $ oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+   or
+   Token; API URL 
+   $ oc login --token <token> --server https://api.ocp4.example.com:6443 
+   
+   
+   - TOken based authentication via IdP (Identity Provider).
+   - Identity Provider list 
+     htpasswd 
+	 LDAP 
+	 Active Directory (AD)
+	 OpenID COnnect (OIDC) - RHSSO, PingIdentity etc 
+	 
+	 - Oauth service - Builtin serice w.r.t OpenShift.
+	 - Oauth is an "identity Broker" on behalf of Red Hat OpenShift.
+       Authentication done via IdP (From the database/file).
+	   Authorization done via Oauth.
+	   
+	   
+Lab Demo:- via htpasswd IdP.
+user1-5 ; sre_grp ; Identoty Provider=IdP-htpasswd-Sre-Team.
+user6-10 ; devops_grp ; Identoty Provider=IdP-htpasswd-devops-Team.
+user11-20 ; myapp_grp ; Identoty Provider=IdP-htpasswd-Myapp-Team
+
+
+Case01:- Remove "user4" from sre_grp 
+Case02-:- Add user "admin" with password red - Check authentication.
+Case03-:- User admin & amins both same account but different IdP.
+
+--------------------------------------
+1-# Login as "cluster-admin" to OCP cluster (cluster-admin access same as root acess w.r.t Linux).
+username=admin 
+password=redhatocp 
+$ oc login -u username -p password https://api.ocp4.example.com:6443 
+
+$ oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+$ oc whoami 
+$ oc get nodes 
+$ oc get clusterversion 
+
+2-# Create local databases (user and their password).
+$ htpasswd --help  
+$ htpasswd -c -B -b htpasswd-sre-file user1 redhat
+$ htpasswd    -B -b htpasswd-sre-file user2 redhat  
+$ htpasswd    -B -b htpasswd-sre-file user3 redhat  
+$ htpasswd    -B -b htpasswd-sre-file user4 redhat  
+$ htpasswd    -B -b htpasswd-sre-file user5 redhat  
+
+************************ For Loop ********************
+touch file
+myfile=htpasswd-devops-team  
+for x in {1..5}
+do
+ if [ -f $myfile ]
+  then 
+  htpasswd  -B -b $myfile user$x redhat
+ else 
+  htpasswd -c -B -b $myfile user$ redhat
+  fi
+done
+************************ For Loop ********************
+
+$ cat htpasswd-sre-file
+
+3-# Create secret/configmap w.r.t namespace=openshift-config 
+$ oc create secret generic secret-name --from-file htpasswd=htpasswd-sre-file -n openshift-config
+$ oc get secret secret-name -n openshift-config
+$ oc get secret secret-name -n openshift-config -o yaml 
+
+
+4-# Update to Oauth service.
+$ oc get oauth cluster 
+$ oc get oauth cluster -o yaml > oauth.yaml 
+
+https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/pdf/authentication_and_authorization/OpenShift_Container_Platform-4.16-Authentication_and_authorization-en-US.pdf
+
+Once updated 
+
+oc get pods -n openshift-authentication
+
+
+5-# Verify the authentication (Login as user).
+
+
+OAuth -> OpenShift-apiserver (proxy) -> OpenShift-kube-apiservice [etcd, kube-controller-manage]
+ 
