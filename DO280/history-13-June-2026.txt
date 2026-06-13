@@ -1,0 +1,828 @@
+    1  ssh lab@utility 
+    2  oc whoami 
+    3  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+    4  oc whoami 
+    5  oc whoami --loglevel 7 
+    6  oc get sc
+    7  oc get is -n openshift 
+    8  oc get is -n openshift | grep nodejs 
+    9  oc get is -n openshift | grep php
+   10  oc get is -n openshift | grep httpd
+   11  oc get istag -n openshift | grep httpd
+   12  oc get istag -n openshift | grep php
+   13  oc new-project demo01 
+   14  oc project -q 
+   15  oc get all
+   16  oc get is 
+   17  oc new-app --name quay.io/cprakash2118/april-java-unzip-httpd-image-02
+   18  oc get pods
+   19  oc new-app --name myapp  quay.io/cprakash2118/april-java-unzip-httpd-image-02
+   20  oc get pods
+   21  oc get is 
+   22  #oc new-app --name git-myapp php:8.0-ubi9~https://github.com/cprakash2118/web
+   23  oc new-project demo02 
+   24  oc new-app --name git-myapp php:8.0-ubi9~https://github.com/cprakash2118/web
+   25  oc get pods
+   26  oc logs -f bc/git-myapp
+   27  oc get pods
+   28  oc get bc 
+   29  oc get build 
+   30  oc get is 
+   31  oc get pods
+   32  oc get svc 
+   33  oc expose service git-myapp 
+   34  oc get route 
+   35  curl http://git-myapp-demo02.apps.ocp4.example.com
+   36  oc get build 
+   37  oc get pods
+   38  oc start-build git-myapp
+   39  oc get pods
+   40  oc logs -f bc/git-myapp
+   41  oc get build 
+   42  oc get pods
+   43  oc get is 
+   44  curl http://git-myapp-demo02.apps.ocp4.example.com
+   45  oc get pods
+   46  oc start-build --from-build git-myapp-1
+   47  oc logs -f bc/git-myapp
+   48  oc get pods
+   49  oc get is 
+   50  curl http://git-myapp-demo02.apps.ocp4.example.com
+   51  oc get route -n openshift-image-registry 
+   52  oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type merge
+   53  oc get route -n openshift-image-registry 
+   54  oc project demo01 
+   55  oc get pods
+   56  oc get is 
+   57  oc new-project demo03
+   58  oc get pods
+   59  oc new-app --name myapp php
+   60  oc get pods
+   61  oc get is
+   62  oc get build 
+   63  oc project demo02
+   64  oc get is 
+   65  oc get build
+   66  oc project demo01 
+   67  oc get is 
+   68  oc get build 
+   69  oc edit deployment
+   70  oc version 
+   71  oc whoami --show-console 
+   72  oc get nodes
+   73  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+   74  oc version 
+   75  oc get clusterversions.config.openshift.io 
+   76  oc whoami --show-console 
+   77  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+   78  oc get routes -n openshift-image-registry 
+   79  oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":false}}' --type merge
+   80  oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type merge
+   81  oc get routes -n openshift-image-registry 
+   82  oc project -q 
+   83  oc get is 
+   84  oc whoami 
+   85  oc whoami -t 
+   86  podman login default-route-openshift-image-registry.apps.ocp4.example.com
+   87  podman images
+   88  podman pull quay.io/cprakash2118/april-java-unzip-httpd-image-02
+   89  podman images
+   90  podman tag quay.io/cprakash2118/april-java-unzip-httpd-image-02 default-route-openshift-image-registry.apps.ocp4.example.com/openshift/cp-image:v1.2 
+   91  podman images
+   92  oc get is -n openshift | grep cp
+   93  oc get is -n openshift | grep cp-image 
+   94  podman images
+   95  podman push default-route-openshift-image-registry.apps.ocp4.example.com/openshift/cp-image:v1.2 
+   96  oc get is -n openshift | grep cp-image 
+   97  oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":false}}' --type merge
+   98  oc get is -n openshift | grep cp-image 
+   99  oc get routes -n openshift-image-registry 
+  100  podman images
+  101  podman save -o my-image quay.io/cprakash2118/april-java-unzip-httpd-image-02
+  102  podman save -o my-image.tar quay.io/cprakash2118/april-java-unzip-httpd-image-02
+  103  ls -l
+  104  rm -rf my-image
+  105  podman images
+  106  podman rmi -af 
+  107  podman images
+  108  podman load -i my-image.tar 
+  109  podman images
+  110  oc get sc 
+  111  oc get volumesnapshotclasses.snapshot.storage.k8s.io 
+  112  oc get volumesnapshot
+  113   lab start backup-export
+  114  oc get sc
+  115  ssh root@utility 
+  116  oc get sc
+  117  oc get sc nfs-storage
+  118  oc describe sc nfs-storage |less
+  119  mkdir GIT
+  120  cd GIT/
+  121  git clone https://github.com/cprakash2118/OpenShift-Use-Cases
+  122  ll
+  123  cd OpenShift-Use-Cases/
+  124  pwd
+  125  ll
+  126  cd app-db-deployment-ex-01/
+  127  pwd
+  128  ll
+  129  tree
+  130  oc new-project database-example
+  131  oc project -q 
+  132  oc apply -k base/
+  133  oc get pods
+  134  oc logs famous-quotes-d87f5454c-g87r2
+  135  oc get pods
+  136  oc edit deployment famous-quotes 
+  137  oc delete deployment famous-quotes 
+  138  oc new-app --name famous-quotes quay.io/cprakash2118/famous-quotes:2.1
+  139  oc new-app --name famous-quotes quay.io/cprakash2118/famous-quotes
+  140  oc delete deployment famous-quotes 
+  141  vim base/application/02-deployment-apps.yaml 
+  142  tree
+  143  oc apply -k base/
+  144  oc get pods
+  145  oc logs famous-quotes-6d66c965fc-frg4r
+  146  oc get pods
+  147  oc delete deployment famous-quotes 
+  148  oc new-app --name famous-quotes quay.io/cprakash2118/famous-quotes:latest 
+  149  oc get pods
+  150  oc logs famous-quotes-bb498c7ff-2ptjp
+  151  cd base/
+  152  ll
+  153  cd application/
+  154  ll
+  155  cat 01-secret-apps.yaml 
+  156  oc get secret 
+  157  oc set data --help |less
+  158  #oc set data secret/foo password-
+  159  #oc set data secret/quotes deployment 
+  160  oc get deployment 
+  161  #oc set env deployment/quotes --from secret/  --prefix QUOTES_
+  162  oc get secret 
+  163  #oc set env deployment/quotes --from secret/quotes  --prefix QUOTES_
+  164  oc get deployment
+  165  oc set env deployment/famous-quotes --from secret/quotes  --prefix QUOTES_
+  166  oc get pods
+  167  oc logs famous-quotes-db84b4b97-x82kn
+  168  oc get pods
+  169  oc get pvc 
+  170  oc get pvc nfs-pvc -o yaml 
+  171  oc get pods
+  172  oc rsh mysql-cbd85f8d5-9m8xl 
+  173  oc edit deployment mysql 
+  174  oc rsh mysql-cbd85f8d5-9m8xl 
+  175  ssh root@utility 
+  176  cd
+  177  oc get nodes 
+  178  oc version 
+  179  oc get clusterversion 
+  180  whoami 
+  181  hostname -s
+  182  hostname -d
+  183  hostname -f
+  184  oc login -u admin  -p redhatocp https://api.ocp4.example.com:6443 
+  185  oc login -u admin  https://api.ocp4.example.com:6443 
+  186  oc logout 
+  187  oc login -u admin  https://api.ocp4.example.com:6443 
+  188  oc login -u admin  -p redhatocp https://api.ocp4.example.com:6443 
+  189  oc whoami 
+  190  oc login -u admin  -p redhatocp https://api.ocp4.example.com:6443 
+  191  oc whoami 
+  192  oc version
+  193  oc get clusterversion 
+  194  oc get nodes
+  195  oc whoami 
+  196  oc whoami --show-console 
+  197  dig master01.ocp4.example.com
+  198  dig github.ocp4.example.com
+  199  dig git.ocp4.example.com
+  200  oc new-project demo11
+  201  oc new-app --name myapp php
+  202  oc get ppds
+  203  oc get pods 
+  204  oc logs  myapp-5d8f7885f5-gm76s
+  205  oc get is -n openshift | grep php
+  206  oc delete all -l app=myapp
+  207  oc new-app --name myapp php:8.0-ubi9
+  208  oc get pods
+  209  oc logs  myapp-6678cf49d5-vxht7
+  210  oc delete all -l app=myapp
+  211  oc new-app --name myapp quay.io/cprakash2118/april-java-unzip-httpd-image-02
+  212  oc get pods
+  213  oc logs  myapp-6654bc5db5-784sf
+  214  oc create sa app-sa 
+  215  oc adm policy add-scc-to-user anyuid -z app-sa 
+  216  oc set sa deployment myapp aap-sa
+  217  oc get pods
+  218  oc set sa deployment myapp aap-sa
+  219  oc get pods
+  220  oc delete  pod myapp-6654bc5db5-784sf
+  221  oc get pods
+  222  oc logs  myapp-6654bc5db5-fv26f
+  223  oc get sa
+  224  oc set sa deployment myapp app-sa
+  225  oc get pods
+  226  oc rsh myapp-96cbf7c69-8wvt7 
+  227  oc get pods
+  228  oc get route 
+  229  oc expose service myapp 
+  230  oc project -q 
+  231  oc get pods
+  232  oc get svc 
+  233  oc get route 
+  234  oc get deployment,rs
+  235  curl http://myapp-demo11.apps.ocp4.example.com
+  236  oc get all
+  237  oc status 
+  238  oc get deployment
+  239  oc edit deployment
+  240  oc get nodes 
+  241  oc version 
+  242  oc get network -o yaml 
+  243  oc projects | grep demo 
+  244  for x in `cat`; do oc delete project $x; done
+  245  oc project production 
+  246  oc project -q 
+  247  oc get pods
+  248  oc get svc 
+  249  oc get rs,deployment 
+  250  oc get is 
+  251  oc get pvc 
+  252  oc get sc 
+  253  oc get storagecluster -n openshift-storage 
+  254  oc version 
+  255  oc get pods
+  256  oc rsh etherpad-6fc85f74b7-8mwtq 
+  257  cd ~/DO380/labs/backup-expor
+  258  cd ~/DO380/labs/backup-export/
+  259  ll
+  260  mkdir production && cd production
+  261  pwd
+  262  ll
+  263  oc project -q 
+  264  pwd
+  265  # oc get pvc/etherpad -o yaml > 01-pvc.yaml
+  266  oc get pvc 
+  267  oc get pv | grep pvc-a44fa36f-9123-42e8-8a8e-d8aa202ee874
+  268  oc get pvc/etherpad -o yaml > 01-pvc.yaml
+  269  vim 01-pvc.yaml 
+  270  ll
+  271  mkdir bkp 
+  272  cp -rpv 01-pvc.yaml bkp/
+  273  ll
+  274  yq -i 'del(.metadata.annotations) | del(.metadata.creationTimestamp) | del(.metadata.namespace)| del(.metadata.finalizers)| del(.metadata.resourceVersion)| del(.metadata.uid)| del(.spec.volumeName)| del(.status)' 01-pvc.yaml
+  275  ll
+  276  vim 01-pvc.yaml 
+  277  oc get deployment/etherpad -o yaml >  02-deployment.yaml
+  278  cp -rpv 02-deployment.yaml bkp/
+  279  tree
+  280  yq -i 'del(.metadata.annotations)| del(.metadata.creationTimestamp)| del(.metadata.namespace)| del(.metadata.resourceVersion)| del(.metadata.uid)| del(.metadata.generation)| del(.status)' 02-deployment.yaml
+  281  ll
+  282  vim 02-deployment.yaml 
+  283  ll
+  284   oc get svc/etherpad -o yaml > 03-service.yaml
+  285  cp -rpv 03-service.yaml bkp/
+  286  vim 03-service.yaml 
+  287  yq -i 'del(.metadata.annotations)| del(.metadata.creationTimestamp)| del(.metadata.namespace)| del(.metadata.resourceVersion)| del(.metadata.uid)| del(.spec.clusterIP*)| del(.status)' 03-service.yaml
+  288  ll
+  289  vim 03-service.yaml 
+  290  oc get route/etherpad -o yaml > 04-route.yaml
+  291  cp -rpv 04-route.yaml bkp/
+  292  yq -i 'del(.metadata.annotations)| del(.metadata.creationTimestamp)| del(.metadata.namespace)| del(.metadata.resourceVersion)| del(.metadata.uid)| del(.spec.host)| del(.status)' 04-route.yaml
+  293  ll
+  294  vim 04-route.yaml 
+  295  oc get route -n openshift-image-registry 
+  296  oc get is 
+  297  oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type merge
+  298  oc get is 
+  299  oc get route -n openshift-image-registry 
+  300  oc get is 
+  301  #image-registry.openshift-image-registry.svc
+  302  #api.ocp4.example.com:6443 
+  303  #api.ocp4.example.com
+  304  dig api.ocp4.example.com
+  305  #api.ocp4.example.com
+  306  #api-int.ocp4.example.com 
+  307  #*.apps.ocp4.example.com
+  308  dig chandra.apps.ocp4.example.com 
+  309  #api.ocp4.example.com
+  310  #api-int.ocp4.example.com 
+  311  #*.apps.ocp4.example.com
+  312  oc get is 
+  313  oc whoami 
+  314  oc whoami -t 
+  315  podman login default-route-openshift-image-registry.apps.ocp4.example.com
+  316  podman pull default-route-openshift-image-registry.apps.ocp4.example.com/production/etherpad:1.8.18
+  317  podman pull default-route-openshift-image-registry.apps.ocp4.example.com/production/etherpad:1.9.1
+  318  podman images
+  319  podmasn imas
+  320  podmasn images
+  321  podman images
+  322  podman tag default-route-openshift-image-registry.apps.ocp4.example.com/production/etherpad:1.8.18 quay.io/cprakash2118/etherpad:1.8.18
+  323  podman login quay.io
+  324  podman images
+  325  podman push quay.io/cprakash2118/etherpad:1.8.18
+  326  pwd
+  327  ll
+  328  oc get is 
+  329  oc get route -n openshift-image-registry 
+  330  ll
+  331  tree
+  332  cat /run/user/1000/containers/auth.json
+  333   oc registry login
+  334  oc get is etherpad
+  335  oc get is etherpad --template '{{.status.publicDockerImageRepository}}') 
+  336  oc get is etherpad --template '{{.status.publicDockerImageRepository}}' 
+  337  oc get is 
+  338  oc get is etherpad --template '{{.status.publicDockerImageRepository}}' ; echo 
+  339  oc get is 
+  340  #default-route-openshift-image-registry.apps.ocp4.example.com/production/etherpad
+  341  #oc image mirror ${IMAGE} file://etherpad
+  342  IMAGE=default-route-openshift-image-registry.apps.ocp4.example.com/production/etherpad
+  343  oc image mirror ${IMAGE} file://etherpad
+  344  ll
+  345  mv bkp ~/
+  346  ll
+  347  tree v2/|less
+  348  oc get route -n openshift-image-registry 
+  349  oc get is 
+  350  ll
+  351  vim ~/bkp/01-pvc.yaml 
+  352  vim 01-pvc.yaml 
+  353  ll
+  354  tree v2/|less
+  355  cd v2/
+  356  ll
+  357  cd .
+  358  cd ..
+  359  ll
+  360  oc get pvc 
+  361  ll
+  362  vim 01-pvc.yaml 
+  363  oc get sc 
+  364  oc get pvc 
+  365  oc get sc | grep ocs-external-storagecluster-ceph-rbd
+  366  oc get sc
+  367  oc get volumesnapshotclasses.snapshot.storage.k8s.io 
+  368  oc get sc
+  369  oc get volumesnapshotclasses.snapshot.storage.k8s.io 
+  370  oc get pods
+  371  oc scale deployment/etherpad --replicas 0
+  372  oc get pods
+  373  vim volumesnapshot.yaml 
+  374  oc get pvc 
+  375  oc apply -f volumesnapshot.yaml 
+  376  oc get volumesnapshot
+  377  oc scale deployment/etherpad --replicas 1
+  378  ll
+  379  vim pvc-snapshot.yaml
+  380  oc get volumesnapshot
+  381  vim pvc-snapshot.yaml
+  382  oc get pvc 
+  383  ll
+  384  oc apply -f pvc-snapshot.yaml 
+  385  oc get pvc 
+  386  ll
+  387  ls -l ../
+  388  vim ../pod-snapshot.yaml 
+  389  oc get pvc 
+  390  vim ../pod-snapshot.yaml 
+  391  oc get pods
+  392  oc apply -f ../pod-snapshot.yaml 
+  393  oc get pods
+  394  oc rsh export-snapshot 
+  395  ll
+  396  mkdir data 
+  397  oc cp -v export-snapshot:/snapshot data
+  398  oc cp export-snapshot:/snapshot data
+  399  ls -l data/
+  400  cd ..
+  401  ll
+  402   oc delete pod/export-snapshot
+  403  oc new-project stage
+  404  oc project -q 
+  405  oc get all 
+  406  oc get is
+  407  oc get pvc 
+  408   oc image mirror  --dir=production file://etherpad default-route-openshift-image-registry.apps.ocp4.example.com/stage/etherpad
+  409  oc get is
+  410  oc get route -n openshift-image-registry 
+  411  oc get is 
+  412  ll
+  413  tree production/
+  414  ls -l production/
+  415  oc apply -f production/01-pvc.yaml 
+  416  oc get pvc 
+  417  ll
+  418  vim pod-restore.yaml 
+  419  ls -l production/
+  420  oc get pvc 
+  421  ll
+  422  vim pod-restore.yaml 
+  423  oc get pvc 
+  424  oc apply -f pod-restore.yaml 
+  425  oc get pods
+  426   oc rsync --no-perms production/data/  restore-snapshot:/data/
+  427   oc delete pod/restore-snapshot
+  428  ll
+  429  vim production/02-deployment.yaml 
+  430  oc apply -f production/02-deployment.yaml
+  431  oc get pods
+  432  oc logs -f deployment/etherpad
+  433  oc get pods
+  434  vim production/03-service.yaml 
+  435  oc apply -f production/03-service.yaml
+  436  oc get pods
+  437  oc get svc 
+  438  oc get deployment,rs
+  439  oc get pvc 
+  440  oc apply -f production/04-route.yaml 
+  441  oc get route 
+  442  cd
+  443  oc login -u admin  -p redhatocp https://api.ocp4.example.com:6443 
+  444  oc whoami 
+  445  oc whoami -t
+  446  oc login -u admin  -p redhatocp https://api.ocp4.example.com:6443 
+  447  oc whoami -t
+  448  oc login --token=sha256~q3-GO7MlTCAnE_LYZfigZRLeCQUn7BoGf9v0XQkH0NM --server=redhatocp https://api.ocp4.example.com:6443
+  449  oc login --token=sha256~q3-GO7MlTCAnE_LYZfigZRLeCQUn7BoGf9v0XQkH0NM --server=https://api.ocp4.example.com:6443
+  450  oc whoami -t --loglevel 7
+  451  oc whoami --loglevel 7
+  452  cat /home/student/.kube/config
+  453  oc whoami -t
+  454  mkdir work 
+  455  cd work/
+  456  pwd
+  457  ll
+  458  htpasswd --help 
+  459  htpasswd -c -B -b htpasswd-file-sre_team user1 redhat 
+  460  ll
+  461  cat htpasswd-file-sre_team 
+  462  htpasswd -c -B -b htpasswd-file-sre_team user2 redhat 
+  463  cat htpasswd-file-sre_team 
+  464  htpasswd -c -B -b htpasswd-file-sre_team user1 redhat 
+  465  cat htpasswd-file-sre_team 
+  466  htpasswd  -B -b htpasswd-file-sre_team user2 redhat 
+  467  cat htpasswd-file-sre_team 
+  468  htpasswd  -B -b htpasswd-file-sre_team user3 redhat 
+  469  htpasswd  -B -b htpasswd-file-sre_team user4 redhat 
+  470  htpasswd  -B -b htpasswd-file-sre_team user5 redhat 
+  471  ll
+  472  cat htpasswd-file-sre_team 
+  473  ll
+  474  oc get nodes
+  475  ll
+  476  oc create secret generic secret-htpasswd-sre_team generic htpasswd=htpasswd-file-sre_team -n openshift-config 
+  477  oc create secret secret-htpasswd-sre_team generic htpasswd=htpasswd-file-sre_team -n openshift-config 
+  478  oc create secret generic secret-htpasswd-sre_team htpasswd=htpasswd-file-sre_team -n openshift-config 
+  479  oc create secret generic secret-sre  htpasswd=htpasswd-file-sre_team -n openshift-config 
+  480  #oc create secret generic secret-sre  htpasswd=htpasswd-file-sre_team -n openshift-config 
+  481  oc create secret generic secret-sre htpasswd=htpasswd-file-sre_team -n openshift-config
+  482  history | grep secret 
+  483  oc create secret  generic xyz htpasswd-file-sre_team -n openshift-config 
+  484  oc whoami 
+  485  oc create secret generic secret-sre --from-file htpasswd=htpasswd-file-sre_team -n openshift-config
+  486  oc get secret secret-sre -n openshift-config 
+  487  oc get secret secret-sre -n openshift-config -o yaml 
+  488  echo "dXNlcjE6JDJ5JDA1JGNOY3ZXbnhJSnlxZGdtcmxMcmNpdmV1OUg0a0FwdS4uc0tPVWFYZFh0TXptdXFVd3JDemVLCnVzZXIyOiQyeSQwNSQxcXJld1loOFVHVmFzU0Vhb1JTYWFlOVRqNlhWUXdBbjhreWNhVmxWbDVLTXh2ekxBbjJPLgp1c2VyMzokMnkkMDUkMnltUEd4MkhOL2o1QjZWcUhhYjYvLmNpd0xLWW9VWWlHc0swRnpOYTJwa013cGlQWDZ3anUKdXNlcjQ6JDJ5JDA1JDB1SHZUdTNXNDVTa1NiTy5LZUtwVE8wOGt3TjVRSnIuMndVdkU3UHNaQ1k2T1BFM1dhLzhXCnVzZXI1OiQyeSQwNSR4TTU5c3hWZ28vbTdtdkJlNjNtUU0uTW9YVzB2ajhlalBTUTU1WXdoR2UzM3loZURoVEVGRwo=" | base64 -d ; echo 
+  489  oc get secret secret-sre -n openshift-config -o yaml 
+  490  oc get secret secret-sre -n openshift-config -o jsonpath='{.data.htpasswd}'
+  491  oc get secret secret-sre -n openshift-config -o jsonpath='{.data.htpasswd}' | base64 -d 
+  492  ll
+  493  touch htpasswd-file-myapp_team
+  494  for x in {11..20}; do htpasswd -b -B htpasswd-file-myapp_team user$x redhat; done
+  495  ll
+  496  oc create secret generic secret-myapp --from-file htpasswd=htpasswd-file-myapp_team -n openshift-config 
+  497  oc get secret -n openshift-config 
+  498  oc get oauth 
+  499  oc get oauth cluster 
+  500  oc get oauth cluster -o yaml > oauth.yaml 
+  501  vim oauth.yaml 
+  502  oc apply -f oauth.yaml 
+  503  oc get pods -n openshift-authentication
+  504  watch oc get pods -n openshift-authentication
+  505  watch oc get pods -n openshift-authentication -o wide 
+  506  oc get oauth -o yaml 
+  507  oc get secret secret-sre -n openshift-config
+  508  oc get secret secret-sre -n openshift-config -o yaml 
+  509  oc get secret secret-sre -n openshift-config -o jsonpath='{.data.htpasswd}' ; echo 
+  510  oc get secret secret-sre -n openshift-config -o jsonpath='{.data.htpasswd}'| base64 -d 
+  511  oc get pods -n openshift-authentication
+  512  oc login -u user1 -p redhat https://api.ocp4.example.com:6443 
+  513  oc whoami 
+  514  for x in {1..5}; do oc login -u user$x -p redhat https://api.ocp4.example.com:6443 ; done
+  515  oc login -u admin  -p redhatocp https://api.ocp4.example.com:6443 
+  516  oc get users | grep -i sre 
+  517  cd
+  518  oc get oauth -o yaml 
+  519  oc extract --help |less
+  520  #oc extract secret/ldap-secret --to=. -n openshift-config 
+  521  mkdir work 
+  522  mkdir ex380
+  523  cat /etc/rht
+  524  oc version 
+  525  cd ex380/
+  526  pwd
+  527  ll
+  528  oc extract secret/ldap-secret --to=. -n openshift-config 
+  529  ll
+  530  oc get oauth -o yaml 
+  531  oc extract cm/ca-config-map --to=. -n openshift-config 
+  532  ll
+  533  oc get oauth -o yaml > oauth.yaml 
+  534  oc get oauth -o yaml > oauth-bkp.yaml 
+  535  ll
+  536  oc get oauth -o yaml
+  537  ldapsearch -D "cn=Directory Manager" -p 389 -w redhatocp -h idm.ocp4.example.com -b "dc=ocp4,dc=example,dc=com" 
+  538  ldapsearch -D "cn=Directory Manager" -p 389 -w redhatocp -h idm.ocp4.example.com -b "dc=ocp4,dc=example,dc=com"  | grep -A 3 Trusts
+  539  #uid=admin,cn=users,cn=accounts,dc=ocp4,dc=example,dc=com
+  540  #ldaps://idm.ocp4.example.com/cn=users,cn=accounts,dc=ocp4,dc=example,dc=com?uid
+  541  #ldaps://idm.ocp4.example.com/cn=accounts,dc=ocp4,dc=example,dc=com?uid
+  542  #ldaps://idm.ocp4.example.com/dc=ocp4,dc=example,dc=com?uid
+  543  oc get oauth -o yaml | tail -15 
+  544  oc get oauth -o yaml | tail -20 | head 
+  545  #uid=admin,cn=users,cn=accounts,dc=ocp4,dc=example,dc=com
+  546  #ldaps://idm.ocp4.example.com/cn=users,cn=accounts,dc=ocp4,dc=example,dc=com?uid
+  547  #ldaps://idm.ocp4.example.com/cn=accounts,dc=ocp4,dc=example,dc=com?uid
+  548  #uid=admin,cn=users,cn=accounts,dc=ocp4,dc=example,dc=com
+  549  ldapsearch -D "cn=Directory Manager" -p 389 -w redhatocp -h idm.ocp4.example.com -b "dc=ocp4,dc=example,dc=com"  | less
+  550  oc edit oauth 
+  551  oc get pods -n openshift-authentication
+  552  watch oc get pods -n openshift-authentication
+  553  oc whoami 
+  554  ssh lab@utility 
+  555  oc login -u kubeadmin -p 66M7c-sxyyY-h2n83-66tAx https://api.ocp4.example.com:6443 
+  556  oc get users | grep admin 
+  557  oc get users | grep developer
+  558  oc delete user admin 
+  559  oc delete user developer
+  560  oc get identities.user.openshift.io | egrep 'admin|developer'
+  561  oc delete identities.user.openshift.io "Red Hat Identity Management:dWlkPWFkbWluLGNuPXVzZXJzLGNuPWFjY291bnRzLGRjPW9jcDQsZGM9ZXhhbXBsZSxkYz1jb20"
+  562  oc get identities.user.openshift.io | egrep 'admin|developer'
+  563  oc delete identities.user.openshift.io "Red Hat Identity Management:dWlkPWRldmVsb3Blcixjbj11c2Vycyxjbj1hY2NvdW50cyxkYz1vY3A0LGRjPWV4YW1wbGUsZGM9Y29t"
+  564  oc get identities.user.openshift.io | egrep 'admin|developer'
+  565  oc delete identities.user.openshift.io "htpasswd_provider:admi"
+  566  oc delete identities.user.openshift.io "htpasswd_provider:admin"
+  567  oc get identities.user.openshift.io | egrep 'admin|developer'
+  568  ldapsearch -D "cn=Directory Manager" -p 389 -w redhatocp -h idm.ocp4.example.com -b "dc=ocp4,dc=example,dc=com"  | grep -A 3 Trusts
+  569  watch oc get pods -n openshift-authentication
+  570  oc get oauth -o yaml
+  571  watch oc get pods -n openshift-authentication
+  572  oc whoami 
+  573  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+  574  oc whoami 
+  575  oc get nodes
+  576  oc get users | grep adin 
+  577  oc get users | grep admin 
+  578  oc delete user admin 
+  579  oc login -u kubeadmin -p 66M7c-sxyyY-h2n83-66tAx https://api.ocp4.example.com:6443 
+  580  oc get identities.user.openshift.io | grep admin 
+  581  oc delete identities.user.openshift.io "LDAP-AUTH-EX380:dWlkPWFkbWluLGNuPXVzZXJzLGNuPWFjY291bnRzLGRjPW9jcDQsZGM9ZXhhbXBsZSxkYz1jb20"
+  582  oc get identities.user.openshift.io | grep admin 
+  583  oc edit oauth 
+  584  watch oc get pods -n openshift-authentication
+  585  oc delete identities.user.openshift.io "LDAP-AUTH-EX380:dWlkPWFkbWluLGNuPXVzZXJzLGNuPWFjY291bnRzLGRjPW9jcDQsZGM9ZXhhbXBsZSxkYz1jb20"
+  586  oc get identities.user.openshift.io | grep admin 
+  587  oc get users | grep admin 
+  588  watch oc get pods -n openshift-authentication
+  589  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+  590  oc get oauth -o yaml 
+  591  oc edit oauth 
+  592  oc get oauth -o yaml 
+  593  watch oc get pods -n openshift-authentication
+  594  oc get users | grep admin 
+  595  oc delete identities.user.openshift.io "LDAP-AUTH-EX380:dWlkPWFkbWluLGNuPXVzZXJzLGNuPWFjY291bnRzLGRjPW9jcDQsZGM9ZXhhbXBsZSxkYz1jb20"
+  596  oc delete user admin 
+  597  watch oc get pods -n openshift-authentication
+  598  oc whoami 
+  599  oc login -u kubeadmin -p 66M7c-sxyyY-h2n83-66tAx https://api.ocp4.example.com:6443 
+  600  watch oc get pods -n openshift-authentication
+  601  oc get oauth -o yaml 
+  602  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+  603  oc login -u kubeadmin -p 66M7c-sxyyY-h2n83-66tAx https://api.ocp4.example.com:6443 
+  604  oc get users | grep admin 
+  605  oc get identities.user.openshift.io | grep admin 
+  606  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+  607  oc get users | grep admin 
+  608  oc get identities.user.openshift.io | grep admin 
+  609  oc get oauth -o yaml 
+  610  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+  611  #oc rollout restart 
+  612  oc get deployment -n openshift-authetication
+  613  oc get deployment -n openshift-authentication
+  614  oc rollout restart oauth-openshift -n openshift-authentication
+  615  oc rollout restart deployment oauth-openshift -n openshift-authentication
+  616  watch oc get pods -n openshift-authentication
+  617  oc get pods -n openshift-authentication
+  618  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+  619  oc delete pod oauth-openshift-7dd5577bb7-nmlv6 -n openshift-authentication
+  620  oc delete pod oauth-openshift-7dd5577bb7-pjw7k -n openshift-authentication
+  621  oc get pods -n openshift-authentication
+  622  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+  623  oc whoami 
+  624  oc get users | grep admin 
+  625  oc get identities.user.openshift.io | grep admin 
+  626  oc edit oauth 
+  627  watch oc get pods -n openshift-authentication
+  628  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+  629  oc login -u kubeadmin -p 66M7c-sxyyY-h2n83-66tAx https://api.ocp4.example.com:6443 
+  630  oc whoami 
+  631  oc edit oauth 
+  632  watch oc get pods -n openshift-authentication
+  633  oc get user | grep admin 
+  634  oc get identities.user.openshift.io  | grep admin 
+  635  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+  636  oc delete identities.user.openshift.io "LDAP-AUTH-EX380:dWlkPWFkbWluLGNuPXVzZXJzLGNuPWFjY291bnRzLGRjPW9jcDQsZGM9ZXhhbXBsZSxkYz1jb20"
+  637  oc get user | grep admin 
+  638  oc delete user admin 
+  639  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+  640  oc edit oauth 
+  641  oc get oauth -o yaml 
+  642  watch oc get pods -n openshift-authentication
+  643  oc get secret ldap-bind-password-6lfd8 -n openshift-config -o yaml > secret-ldap-bind-password-6lfd8.yaml 
+  644  oc get cm ldap-ca-l4ml2 -n openshift-config -o yaml > cm-ldap-ca-l4ml2.yaml 
+  645  ll
+  646  vim secret-ldap-bind-password-6lfd8.yaml 
+  647  oc apply -f secret-ldap-bind-password-6lfd8.yaml 
+  648  vim cm-ldap-ca-l4ml2.yaml 
+  649  oc apply -f cm-ldap-ca-l4ml2.yaml 
+  650  oc edit oauth 
+  651  watch oc get pods -n openshift-authentication
+  652  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+  653  oc login -u developer -p developer
+  654  cd
+  655  oc get nodes
+  656  oc whoami 
+  657  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+  658  oc get nodes
+  659  #oc adm taint node worker01 
+  660  oc describe nodes | grep -i taint 
+  661  oc adm taint node --help |less
+  662  #oc adm taint nodes foo dedicated:NoSchedule-
+  663  oc adm taint node worker01 key1=value1:NoSchedule
+  664  oc adm taint node worker02 key1=value1:NoSchedule
+  665  oc adm taint node worker03 key1=value1:NoSchedule
+  666  oc describe nodes | grep -i taint 
+  667  oc adm taint node master01 key1=value1:NoSchedule
+  668  oc adm taint node master02 key1=value1:NoSchedule
+  669  oc adm taint node master03 key1=value1:NoSchedule
+  670  oc describe nodes | grep -i taint 
+  671  oc new-project demo-ex380
+  672  oc project -q
+  673  oc new-app --name pho
+  674  oc get pods
+  675  oc new-app --name php
+  676  oc get pods
+  677  oc get is | grep php
+  678  oc get is -n openshift | grep php
+  679  oc new-app --name php:8.0-ubi9
+  680  oc new-app --name myapp php:8.0-ubi9
+  681  oc get pods 
+  682  oc expose service myapp 
+  683  oc get pdos 
+  684  oc get ppds
+  685  oc get pods
+  686  oc get svc 
+  687  oc get route 
+  688  oc describe nodes | grep -i taint 
+  689  oc get pods
+  690  oc adm taint node worker01 key1=value1:NoSchedule-
+  691  oc adm taint node worker02 key1=value1:NoSchedule-
+  692  oc adm taint node worker03 key1=value1:NoSchedule-
+  693  oc adm taint node master03 key1=value1:NoSchedule-
+  694  oc adm taint node master02 key1=value1:NoSchedule-
+  695  oc adm taint node master01 key1=value1:NoSchedule-
+  696  oc describe nodes | grep -i taint 
+  697  oc get pods
+  698  lab start backup-restore 
+  699  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+  700  oc whoami 
+  701  oc whoami -t
+  702  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+  703  oc whoami -t
+  704  oc login --token sha256~gx7jfpgtBJs7G_32eNLpwoEDorGqT90ShjFind87Y-w --server https://api.ocp4.example.com:6443 
+  705  oc whoami 
+  706  oc whoami -t
+  707  oc whoami --show-console 
+  708     oc  - openshift-client; 
+  709  oc login --token=sha256~iUGA_Yb9f6LBhm5jVYX65ZbFFKU4QvM18NAMhCyj8ME --server=https://api.ocp4.example.com:6443
+  710  curl -H "Authorization: Bearer sha256~iUGA_Yb9f6LBhm5jVYX65ZbFFKU4QvM18NAMhCyj8ME" "https://api.ocp4.example.com:6443/apis/user.openshift.io/v1/users/~"
+  711  oc whoami 
+  712  oc whoami --loglevel 7
+  713  oc get oauth -o yaml 
+  714  oc get user| grep admin 
+  715  oc login -u admin -p redha https://api.ocp4.example.com:6443
+  716  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+  717  mkdir DO280
+  718  cd DO280/
+  719  pwd
+  720  ll
+  721  touch htpasswd-{sre,devops,myapp}
+  722  ll
+  723  rm -rf *
+  724  touch htpasswd-{sre,devops,myapp}.txt 
+  725  file * 
+  726  htpasswd --help
+  727  htpasswd -c -B -b htpasswd-sre.txt  user1 redhat 
+  728  file * 
+  729  htpasswd -c -B -b htpasswd-sre.txt  user2 redhat 
+  730  cat htpasswd-sre.txt 
+  731  htpasswd -c -B -b htpasswd-sre.txt  user1 redhat 
+  732  cat htpasswd-sre.txt 
+  733  htpasswd  -B -b htpasswd-sre.txt  user2 redhat 
+  734  cat htpasswd-sre.txt 
+  735  htpasswd  -B -b htpasswd-sre.txt  user3 redhat 
+  736  htpasswd  -B -b htpasswd-sre.txt  user4 redhat 
+  737  htpasswd  -B -b htpasswd-sre.txt  user5 redhat 
+  738  cat htpasswd-sre.txt 
+  739  file * 
+  740  oc create secret generic secret-sre-file --from-file htpasswd=htpasswd-sre.txt -n openshift-config 
+  741  oc get secret -n openshift-config
+  742  oc extract secret/secret-sre-file --to=. -n openshft-config 
+  743  oc extract secret/secret-sre-file --to=. -n openshift-cofig
+  744  oc extract secret/secret-sre-file --to=. -n openshift-config 
+  745  ll
+  746  cat htpasswd
+  747  oc get oauth -o yaml > oauth.yaml 
+  748  vim oauth.yaml 
+  749  oc get secret -n openshift-config 
+  750  vim oauth.yaml 
+  751  oc apply -f oauth.yaml 
+  752  oc get pods -n openshift-authentication
+  753  watch oc get pods -n openshift-authentication
+  754  watch oc get pods -n openshift-authentication -o wide 
+  755  oc login -u user1 -p redhat https://api.ocp4.example.com:6443 
+  756  oc whoami 
+  757  ll
+  758  oc get users | grep sre 
+  759  oc whoami 
+  760  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+  761  oc get users | grep -i sre 
+  762  ll
+  763  cat htpasswd-sre.txt 
+  764  ll
+  765  oc get secret -n openshift-config 
+  766  oc get secret secret-sre-file
+  767  oc get secret secret-sre-file -n openshift-config 
+  768  oc get secret secret-sre-file -n openshift-config -o yaml 
+  769  echo "dXNlcjE6JDJ5JDA1JGVzNkJ2cTUyWHZKMzNFTThONWpQcS52VXM0Ui44WTlZTDZZY1E4TEQwWXlOb205STdXQVJLCnVzZXIyOiQyeSQwNSRQYzMwWURaUG9ybXF3UXl0eGxNa0RPT0dVdUNtcnRCdURFc2kuZ0daTkhyZm4vSVhpcE40Swp1c2VyMzokMnkkMDUkclZaL1JYQUZsUmdpeDA4NmtVZzUzT1ZNa21LdTM0cW5NZldrcHRDMk1nSkMwdkw4WklpUU8KdXNlcjQ6JDJ5JDA1JFpwUlJTclU4Z3pmSmFFMjJrNk1ZTXV2enJiRE1DZXFXN0JVZkEzQ1JhRVlCRk14VlN2c0c2CnVzZXI1OiQyeSQwNSQ3ZTIuLnZyMllYbDJ0YURsZUQvTFEuUW1yWVU4WVdsSjBra3FpV3IuUkp2c2NEUUdONXRwUwo=" | base64 -d ; 
+  770  oc get secret secret-sre-file -n openshift-config -o yaml 
+  771  oc get secret secret-sre-file -n openshift-config -o jsonpath={'.data.htpasswd}'
+  772  oc get secret secret-sre-file -n openshift-config -o jsonpath={'.data.htpasswd}'| base64 -d 
+  773  oc get oauth -o yaml 
+  774  oc get secret secret-sre-file -n openshift-config -o jsonpath={'.data.htpasswd}'| base64 -d 
+  775  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+  776  oc whoami 
+  777  oc get clusterversion 
+  778  oc get nodes
+  779  oc new-project demo01 
+  780  oc project -q 
+  781  oc get secret 
+  782  oc get cm
+  783  oc create secret generic secret-sre-file --from-file htpasswd=htpasswd-sre.txt 
+  784  oc create cm cm-sre-file --from-file htpasswd=htpasswd-sre.txt 
+  785  oc get secret 
+  786  oc get secret secret-sre-file -o yaml 
+  787  oc get cm-sre-file -o yaml 
+  788  oc get cm cm-sre-file -o yaml 
+  789  ll
+  790  l
+  791  file * 
+  792  for x in {6..10}; do htpasswd -B -b htpasswd-devops.txt user$x redhat; done
+  793  for x in {11..20}; do htpasswd -B -b htpasswd-myapp.txt user$x redhat; done
+  794  ll
+  795  cat htpasswd-sre.txt 
+  796  cat htpasswd-devops.txt 
+  797  cat htpasswd-myapp.txt 
+  798  oc whaami 
+  799  oc whoami 
+  800  oc whoami --show-console 
+  801  watch oc get pods -n openshift-authentication -o wide 
+  802  history  | grep for 
+  803  for x in {1..20}; do oc login -u user$x -p redhat https://api.ocp4.example.com:6443 ; done
+  804  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+  805  oc get users | grep -i sre 
+  806  oc get users | grep -i devops
+  807  oc get users | grep -i myapp
+  808  history | grep for 
+  809  oc get oauth -o ayml 
+  810  oc whoami 
+  811  oc get oauth -o ayml 
+  812  oc get oauth -o yaml 
+  813  ll
+  814  myfile=htpasswd-yourapp.txt 
+  815  for x in {21..30}; do if [ -f $myfile ]; then  htpasswd -b -B $myfile user$x redhat ; else htpasswd -c -b -B $myfile user$x redhat; fi; done
+  816  ls -l
+  817  cat htpasswd-yourapp.txt 
+  818  oc get pods -n openshift-authentication -o wide 
+  819  oc get pods -n openshift-authentication 
+  820  oc get pods -n openshift-apiserver
+  821  oc get pods -n openshift-kube-apiserver
+  822  oc get pods -n openshift-apiserver
+  823  oc get pods -n openshift-kube-apiserver | grep master 
+  824  oc get pods -n openshift-kube-apiserver | grep apiserver-master 
+  825  oc get pods -n openshift-apiserver
+  826  oc get pods -n openshift-authentication 
+  827  ll
+  828  history > history-13-June-2026.txt 
