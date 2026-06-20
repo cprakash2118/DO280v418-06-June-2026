@@ -1,0 +1,101 @@
+Point-1# Login to RedHat Online Learning Platfrom (ROL).
+  - https://rol.redhat.com [Use your Red Hat Login ID]
+  - Click on "Resources" then Click on "Bookself" and download the ebook.
+  - Click on LAB then access your workstation by click on "OPEN CONSOLE".
+  
+POint-02# Login to OCP cluster.
+$ oc login -u username -p password https://api.ocp4.example.com:6443 
+
+Example:-
+$ oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+
+
+
+
+----------------------------- Reference ------------------------------------------
+
+1-# Login as "cluster-admin" to OCP cluster (cluster-admin access same as root acess w.r.t Linux).
+username=admin 
+password=redhatocp 
+$ oc login -u username -p password https://api.ocp4.example.com:6443 
+
+$ oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+$ oc whoami 
+$ oc get nodes 
+$ oc get clusterversion 
+
+2-# Create local databases (user and their password).
+$ mkdir work ; cd work ; pwd
+/home/student/work 
+$ htpasswd --help  
+$ htpasswd -c -B -b htpasswd-sre-file user1 redhat
+$ htpasswd    -B -b htpasswd-sre-file user2 redhat  
+$ htpasswd    -B -b htpasswd-sre-file user3 redhat  
+$ htpasswd    -B -b htpasswd-sre-file user4 redhat  
+$ htpasswd    -B -b htpasswd-sre-file user5 redhat  
+
+
+3-# Create secret/configmap w.r.t namespace=openshift-config 
+$ cat htpasswd-sre-file
+
+$ oc create secret generic secret-sre --from-file htpasswd=htpasswd-sre-file -n openshift-config
+$ oc get secret secret-sre -n openshift-config
+$ oc get secret secret-sre -n openshift-config -o yaml 
+
+
+4-# Update to Oauth service.
+$ oc get oauth cluster 
+$ oc get oauth cluster -o yaml > oauth.yaml 
+
+https://docs.redhat.com/en/documentation/openshift_container_platform/4.16/pdf/authentication_and_authorization/OpenShift_Container_Platform-4.16-Authentication_and_authorization-en-US.pdf
+
+$ vim oauth.yaml (Only append)
+
+  identityProviders:
+  - ....
+    ....
+    .... 
+  - name: my_htpasswd_provider (As per your IdP name)
+    mappingMethod: claim 
+    type: HTPasswd
+    htpasswd:
+      fileData:
+        name: htpass-secret    (As per your secret name)
+
+#Once updated 
+$ oc get pods -n openshift-authentication
+$ watch oc get pods -n openshift-authentication
+(ctrl + c -> to comeout from watch)
+
+5-# Verify the authentication (Login as user).
+
+
+####### update oauth via GUI ########
+- Login to OCP cluster (as a cluster-admin using admin/redhatocp - same API url)
+- Click on "Administration" -> "Cluster Settings" -> "Configuration" -> "Search of Oauth" -> Click on Oauth -> then add IdP (htpasswd as of now) and load "htpasswd-sre-file" with IdP name.
+
+----------------------------- Reference ------------------------------------------
+Assignments:-
+ - user1-5/redhat ; secret Name=secret-sre ; IdentityProvider Name="IdP-htpasswd-SRE-Team" ; Upload FIle=htpasswd-sre-file 
+ - user6-15/redhat ; secret Name=secret-devops ; IdentityProvider Name="IdP-htpasswd-DevOps-Team" ; Upload FIle=htpasswd-devops-file 
+ - user16-30/redhat ; secret Name=secret-myapp ; IdentityProvider Name="IdP-htpasswd-MyApp-Team" ; Upload FIle=htpasswd-myapp-file 
+ - user31-50/redhat ; secret Name=secret-yourapp ; IdentityProvider Name="IdP-htpasswd-YourApp-Team" ; Upload FIle=htpasswd-yourapp-file
+
+my-filename=htpasswd-sre-file 
+for x in {1..5}
+do
+ if [ -f $my_filename ]
+ then 
+  htpasswd -b -B $my_filename user$x redhat 
+ else
+  htpasswd -c -b -B $my_filename user$x redhat  
+ fi
+done 
+
+
+Note:  Changes 
+- my-filename=
+- range limit {1..5} ->{6..15}
+
+ 
+- Verify user login via GUI also.
