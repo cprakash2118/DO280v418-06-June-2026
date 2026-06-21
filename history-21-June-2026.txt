@@ -1,0 +1,339 @@
+    1  exit
+    2  exit
+    3  exit
+    4  exit
+    5  exit
+    6  exit
+    7  oc whoami --show-console 
+    8  oc login -u admin -p redhatocp https://api.ocp4.example.com
+    9  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+   10  oc whoami --show-console 
+   11  for x in {1..2}
+   12  for x in {1..3}; do sleep 60; echo $x min over; done
+   13  oc new-project demo01
+   14  oc project -q 
+   15  oc get all
+   16  oc get secret 
+   17  oc get cm 
+   18  #oc extract cm/openshift-service-ca.crt --to=.
+   19  mkdir work 
+   20  cd work/
+   21  pwd
+   22  ll
+   23  oc extract cm/openshift-service-ca.crt --to=.
+   24  ll
+   25  vim service-ca.crt 
+   26  oc create cm mycm 
+   27  oc get cm 
+   28  oc get cm mycm -o yaml 
+   29  oc extract cm/mycm --to=.
+   30  ll
+   31  oc annotate configmap myca service.beta.openshift.io/inject-cabundle=true
+   32  oc annotate configmap mycm service.beta.openshift.io/inject-cabundle=true
+   33  oc get cm 
+   34  ll
+   35  mv service-ca.crt service-ca-bkp.crt 
+   36  oc extract cm/mycm --to=.
+   37  ll
+   38  vim service-ca.crt 
+   39  vim -O service-ca.crt service-ca-bkp.crt 
+   40  cat service-ca.crt 
+   41  cat service-ca-bkp.crt 
+   42  diff service-ca.crt service-ca-bkp.crt 
+   43  oc new-project demo02
+   44  oc create cm mycm 
+   45  oc annotate configmap mycm service.beta.openshift.io/inject-cabundle=true
+   46  oc get cm
+   47  ll
+   48  mv service-ca.crt service-ca-demo01.crt 
+   49  ll
+   50  oc extract cm/mycm --to=.
+   51  ll
+   52  diff service-ca.crt service-ca-demo01.crt 
+   53  oc get users | grep -i sre
+   54  oc get users
+   55  ll
+   56  mkdir work2
+   57  pwd
+   58  cd work2/
+   59  pwd
+   60  ll
+   61  htpasswd -c -b -B htpasswd user1 redhat 
+   62  htpasswd  -b -B htpasswd user2 redhat 
+   63  htpasswd  -b -B htpasswd user3 redhat 
+   64  htpasswd  -b -B htpasswd user4 redhat 
+   65  htpasswd  -b -B htpasswd user5 redhat 
+   66  oc get pods -n openshift-config 
+   67  oc get pods -n openshift-authentication
+   68  for x in {1..5}; oc login -u user$x -p redhat 
+   69  for x in {1..5}; do oc login -u user$x -p redhat ; done
+   70  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+   71  oc get users
+   72  oc new-project ns-booking-app 
+   73  oc project -q 
+   74  oc create namespace ns-payment-app 
+   75  oc project -q
+   76  oc get nodes
+   77  ssh core@192.168.50.10
+   78  oc get nodes
+   79  oc debug   host/master01 
+   80  oc debug   node/master01 
+   81  oc project -q
+   82  oc describe resourcequotas 
+   83  oc create quota --help |less
+   84  ll
+   85  oc create quota my-quota --hard=cpu=1,memory=1G,pods=2,services=3,replicationcontrollers=2,resourcequotas=1,secrets=5,persistentvolumeclaims=10 --dry-run=client -o yaml > resource-quota.yaml 
+   86  vim resource-quota.yaml 
+   87  oc project -q
+   88  oc describe resourcequotas 
+   89  oc apply -f resource-quota.yaml 
+   90  oc get quota 
+   91  oc describe resourcequota 
+   92  vim limitrange.yaml 
+   93  oc project -q 
+   94  oc apply -f limitrange.yaml 
+   95  oc project -q 
+   96  oc describe resourcequotas 
+   97  oc describe limitranges 
+   98  oc new-app --name myapp quay.io/cprakash2118/april-java-unzip-httpd-image-02
+   99  oc get pods 
+  100  oc describe resourcequotas 
+  101  oc describe limitranges 
+  102  oc describe resourcequotas 
+  103  oc describe limitranges 
+  104  oc get pods
+  105  oc logs  myapp-6654bc5db5-rthh9
+  106  oc create sa app-sa 
+  107  oc adm policy add-scc-to-user anyuid -z app-sa 
+  108  oc set sa deployment myapp app-sa 
+  109  oc get pods
+  110  oc scale --replicas=5 deployment myapp 
+  111  oc get pods
+  112  oc describe resourcequotas 
+  113  oc describe limitranges 
+  114  oc scale --replicas=12 deployment myapp 
+  115  oc get pods
+  116  oc describe limitranges 
+  117  oc describe resourcequotas 
+  118  oc get events | grep myapp 
+  119  oc describe limitranges 
+  120  oc describe resourcequotas 
+  121  oc adm top pod 
+  122  oc describe resourcequotas 
+  123  oc describe limitranges 
+  124  oc edit resourcequotas 
+  125  oc describe resourcequotas 
+  126  oc scale --replicas=12 deployment myapp 
+  127  oc describe resourcequotas 
+  128  oc scale --replicas=12 deployment myapp 
+  129  oc describe resourcequotas 
+  130  oc get events | grep myapp 
+  131  oc get events | grep myapp  |less
+  132  oc get events --help |less
+  133  oc adm top pod 
+  134  oc scale --replicas=0 deployment myapp 
+  135  oc get pods
+  136  oc scale --replicas=12 deployment myapp 
+  137  oc get pods
+  138  oc describe resourcequotas 
+  139  oc adm top pod 
+  140  oc describe resourcequotas 
+  141  cd 
+  142  lab start non-http-lb 
+  143  cd DO280/
+  144  ll
+  145  cd labs/
+  146  ll
+  147  cd non-http-lb/
+  148  pwd
+  149  ll
+  150  vim virtual-rtsp-1.yaml 
+  151  oc new-project non-http-lb
+  152  oc project -q 
+  153  oc get all
+  154  oc apply -f virtual-rtsp-1.yaml 
+  155  oc get pods
+  156  oc get svc 
+  157  oc get rs,deployment 
+  158  oc get all 
+  159  oc get cm
+  160  oc get secret 
+  161  oc expose deployment/virtual-rtsp-1 --type ClusterIP --target-port=8554
+  162  oc get svc 
+  163  oc expose service virtual-rtsp-1 
+  164  oc get route 
+  165  oc get svc 
+  166  oc describe  svc 
+  167  oc delete routes.route.openshift.io virtual-rtsp-1 
+  168  oc get svc 
+  169  oc edit svc virtual-rtsp-1 
+  170  oc get svc 
+  171  # nc -vz 192.168.50.20 8554
+  172  oc get nodes -o wide 
+  173  nc -vz 192.168.50.10 8554
+  174  nc -vz 192.168.50.10 32705
+  175  #vlc rtsp://192.168.50.20:8554/stream
+  176  vlc rtsp://192.168.50.10:32705/stream
+  177  oc get svc 
+  178  oc edit svc 
+  179  oc get svc 
+  180  vlc rtsp://192.168.50.20:8554/stream
+  181  ll
+  182  oc apply -f virtual-rtsp-2.yaml
+  183  oc get pods 
+  184  oc get svc 
+  185  oc expose deployment/virtual-rtsp-2 --type LoadBalancer --target-port=8554
+  186  oc get svc 
+  187  vlc rtsp://192.168.50.21:8554/stream
+  188  oc get svc 
+  189  oc project metallb-system 
+  190  oc get svc 
+  191  oc get pods
+  192  oc get ippools.whereabouts.cni.cncf.io 
+  193  oc get ipaddresses.ipam.cluster.x-k8s.io 
+  194  oc get ipaddresspools.metallb.io 
+  195  oc edit ipaddresspools.metallb.io gls-metallb-ipaddresspool 
+  196  oc project non-http-lb 
+  197  oc get svc 
+  198  oc describe svc virtual-rtsp-2 
+  199  oc get pods
+  200  oc get svc 
+  201  oc apply -f virtual-rtsp-3.yaml 
+  202  oc get pods
+  203  oc logs virtual-rtsp-3-798c5d74f4-gxqbw
+  204  oc projects | less
+  205  oc delete project demo01
+  206  oc delete project demo02
+  207  oc projects | less
+  208  oc get pods
+  209  oc describe virtual-rtsp-3-798c5d74f4-gxqbw
+  210  oc describe pod virtual-rtsp-3-798c5d74f4-gxqbw
+  211  oc get top nodes
+  212  oc get top node
+  213  oc adm top nodes
+  214  oc projects |less
+  215  oc delete namespaces ns-booking-app 
+  216  oc delete namespaces ns-payment-app 
+  217  oc get pods
+  218  oc get svc 
+  219  oc expose deployment/virtual-rtsp-3 --type LoadBalancer --target-port=8554
+  220  oc get svc 
+  221  oc project metallb-system 
+  222  oc edit ipaddresspools.metallb.io gls-metallb-ipaddresspool 
+  223  oc get svc -n non-http-lb 
+  224  oc project non-http-lb 
+  225  oc get pods
+  226   vlc rtsp://192.168.50.22:8554/stream
+  227  oc get svc 
+  228  cd
+  229  watch oc get po -n openshift-authentication
+  230  su - 
+  231  htpasswd --help 
+  232  htpasswd -c -b -5 htpasswd user redhat
+  233  cat htpasswd 
+  234  mkdir task 
+  235  cd task/
+  236  pwd
+  237  ll
+  238  file-name=htpasswd-upload-sre
+  239  filename=htpasswd-upload-sre
+  240  for x in {101..105}; do if [ -f $filename ]; then htpasswd -c -B -b $filename user$x redhat; else
+  241  for x in {101..105}; do if [ -f $filename ]; then htpasswd  -B -b $filename user$x redhat; else htpasswd -c -B -b $filename user$x redhat; fi; done
+  242  ll
+  243  cat htpasswd-upload-sre 
+  244  filename=htpasswd-upload-devops
+  245  for x in {106..110}; do if [ -f $filename ]; then htpasswd  -B -b $filename user$x redhat; else htpasswd -c -B -b $filename user$x redhat; fi; done
+  246  ll
+  247  cat htpasswd-upload-devops 
+  248  filename=htpasswd-upload-myapp
+  249  for x in {111..120}; do if [ -f $filename ]; then htpasswd  -B -b $filename user$x redhat; else htpasswd -c -B -b $filename user$x redhat; fi; done
+  250  ll
+  251  oc get oauth cluster -o yaml 
+  252  oc get pods -n openshift-authentication
+  253  watch oc get pods -n openshift-authentication
+  254  oc get pods -n openshift-authentication
+  255  oc get pods -n openshift-authentication-operator 
+  256  oc get pods -n openshift-apiserver
+  257  oc get pods -n openshift-apiserver-operator 
+  258  oc get pods -n openshift-kube-apiserver 
+  259  oc get pods -n openshift-kube-apiserver-operator 
+  260  oc get user
+  261  oc get identities.user.openshift.io 
+  262  for x in {1..5}; do oc delete user$x ; done
+  263  for x in {1..5}; do oc delete user user$x ; done
+  264  oc get identities.user.openshift.io 
+  265  oc get identities.user.openshift.io | grep user 
+  266  oc get identities.user.openshift.io | grep user | awk -F" " '{print $1}'
+  267  for x in `oc get identities.user.openshift.io | grep user | awk -F" " '{print $1}'`; do oc delete identity $x ; done
+  268  oc get users 
+  269  oc get identities.user.openshift.io 
+  270  for x in {101..130}; do oc login -u user$x -p redhat; done
+  271  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+  272  oc get users | grep SRE
+  273  oc get users | grep DevOps 
+  274  oc get users | grep -i myapp
+  275  oc get groups
+  276  oc adm groups grp_sre 
+  277  oc adm groups new grp_sre 
+  278  oc adm groups new grp_devops 
+  279  oc adm groups new grp_myapp
+  280  oc get groups
+  281  oc adm groups add-users grp_sre user101
+  282  for x in {102..105}; do oc adm groups add-users grp_sre user$x; done
+  283  for x in {106..110}; do oc adm groups add-users grp_devops user$x; done
+  284  for x in {111..120}; do oc adm groups add-users grp_myapp user$x; done
+  285  oc get groups
+  286  history 
+  287  oc get groups
+  288  oc get groups 
+  289  oc login -u user101 -p redhat 
+  290  oc get nodes 
+  291  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+  292  oc adm policy add-cluster-role-to-group cluster-admin grp_sre
+  293  oc login -u user101 -p redhat 
+  294  oc get nodes
+  295  oc login -u user111 -p redhat 
+  296  oc new-project demo10
+  297  oc login -u user101 -p redhat 
+  298  oc get clusterrole | grep self-pro
+  299  oc describe clusterrolebindings self-provisioner
+  300  oc adm policy remove-cluster-role-from-group self-provisioner system:authenticated:oauth
+  301  oc annotate clusterrolebinding.rbac self-provisioners 'rbac.authorization.kubernetes.io/autoupdate=false' --overwrite
+  302  oc annotate clusterrolebinding.rbac self-provisioner 'rbac.authorization.kubernetes.io/autoupdate=false' --overwrite
+  303  oc describe clusterrolebindings self-provisioner
+  304  oc adm policy add-cluster-role-to-group self-provisioner devops_grp 
+  305  oc get groups
+  306  oc adm policy add-cluster-role-to-group self-provisioner grp_devops
+  307  oc describe clusterrolebindings self-provisioner
+  308  oc adm policy remove-cluster-role-from-group self-provisioner devops_grp
+  309  oc describe clusterrolebindings self-provisioner
+  310  oc annotate clusterrolebinding.rbac self-provisioner 'rbac.authorization.kubernetes.io/autoupdate=false' --overwrite
+  311  oc annotate clusterrolebinding.rbac self-provisioners 'rbac.authorization.kubernetes.io/autoupdate=false' --overwrite
+  312  oc describe clusterrolebindings self-provisioner
+  313  oc login -u user111 -p redhat 
+  314  oc new-project demo11
+  315  oc login -u user108 -p redhat 
+  316  oc new-project demo11
+  317  oc new-project ns-payment-app
+  318  oc login -u user101 -p redhat 
+  319  oc projects | grep ns
+  320  oc projects | grep -w ns
+  321  oc adm policy add-role-to-user admin user111 -n ns-payment-app
+  322  oc adm policy add-role-to-user admin user112 -n ns-payment-app
+  323  oc adm policy add-role-to-user admin user113 -n ns-payment-app
+  324  oc adm policy add-role-to-user edit user114 -n ns-payment-app
+  325  oc adm policy add-role-to-user edit user115 -n ns-payment-app
+  326  oc adm policy add-role-to-user edit user116 -n ns-payment-app
+  327  oc adm policy add-role-to-user edit user117 -n ns-payment-app
+  328  oc adm policy add-role-to-user view user118 -n ns-payment-app
+  329  oc adm policy add-role-to-user view user119 -n ns-payment-app
+  330  oc login -u user118 -p redhat 
+  331  oc new-app --name myapp php
+  332  oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+  333  oc project -q
+  334  oc describe rolebindings |less
+  335  oc login -u user120 -p redhat 
+  336  oc login -u user101 -p redhat 
+  337  oc get groups
+  338  ll
+  339  history > history-21-June-2026.txt
