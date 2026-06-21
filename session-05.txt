@@ -1,0 +1,77 @@
+Task-01:- Create users using IdP=htpasswd
+ user101-105/redhat ; IdP Name="IdP-htpasswd-SRE-Team"
+ user106-110/redhat ; IdP Name="IdP-htpasswd-DevOps-Team"
+ user111-120/redhat ; IdP Name="IdP-htpasswd-MYapp-Team"
+ 
+Task-02:- Add users to groups. 
+ user101-105 -> sre_grp 
+ user106-110 -> devops_grp 
+ user111-120 -> myapp_grp 
+ 
+Task-03:- RBAC 
+Cluster level:-
+ sre_grp -> "cluster-admin" access 
+ devops_grp -> "self-provisioner" access
+ 
+local/namespace/project level:-
+ namespace=ns-payment-app 
+ user111-113 -> admin 
+ user114-117 -> edit 
+ user118-119 -> view 
+ user120     -> No access (default "basic-user" access).
+
+------------------------------------------------------------------------
+- OAuth is an identity broker and deal with Identity Provider (IdP). 
+- Authentication done by IdP only.
+- And authorization done by RBAC (Role Basedd Access Control).
+- Secret/ConfigMap related items belongs to namespace="openshift-config"
+- Oauth cluster service belongs to namespace="openshift-authentication"
+  openshift-authentication -> openshift-apiserver -> openshift-kube-apiserevr -> [openshift-etcd/openshift-controller-manager/openshift-schedulaer]
+  FYI- kube-apiserevr revert to openshift-apiserver then to Oauth.  
+
+Task-01:- Create users using IdP=htpasswd
+ user101-105/redhat ; IdP Name="IdP-htpasswd-SRE-Team"
+ user106-110/redhat ; IdP Name="IdP-htpasswd-DevOps-Team"
+ user111-120/redhat ; IdP Name="IdP-htpasswd-MYapp-Team"
+ 
+
+Task-02:- Add users to groups. 
+ user101-105 -> sre_grp 
+ user106-110 -> devops_grp 
+ user111-120 -> myapp_grp 
+ 
+
+Task-03:- RBAC 
+Cluster level:-
+ sre_grp -> "cluster-admin" access 
+ devops_grp -> "self-provisioner" access (only this team can create namespace/project).
+ 
+local/namespace/project level:-
+ namespace=ns-payment-app 
+ user111-113 -> admin 
+ user114-117 -> edit 
+ user118-119 -> view 
+ user120     -> No access (default "basic-user" access).
+ 
+ 
+# Role Based Access Control (RBAC).
+-1# Rule:- One action to be taken 
+-2# Role:- Set of action 
+-3# RoleBinding:-  Assign role to user/group.
+
+# Scope of RBAC w.r.t OpenShift:-
+- CLuster level 
+- Local/Namespace/project level 
+FYI- Without namespace application deployment/anything not possible.
+
+## Default roles:-
+Cluster Roles:-
+1-# cluster-admin (super user role w.r.t cluster - like root account in Linux)
+2-# cluster-reader (can read anything accross cluster.
+3-# cluster-status (Just to get the cluster status)
+4-# self-provisioner (allow to create project/namespace).
+
+local/namespace/project:-
+5-# admin w.r.t namespace
+6-# edit w.r.t namespace
+7-# view w.r.t namespace
