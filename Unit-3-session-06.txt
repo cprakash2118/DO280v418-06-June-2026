@@ -1,0 +1,238 @@
+Unit-3-# Authentication and Authorization.
+ - Configuring the HTPasswd Identity Provider.
+ - Defining and Applying Permissions with RBAC
+
+# 3.1. Configuring the HTPasswd Identity Provider.
+  - OpenShift Users and Groups.
+    Users:-
+    $ oc get users
+    
+	Groups:-	
+	$ oc get groups 
+	
+	Identity:-
+	$ oc get identity 
+	
+	ServiceAccount (sa):-
+	$ oc create serviceaccount myapp-sa 
+	$ oc adm policy add-cluster-role-to-user cluster-admin -z myapp-sa 
+	$ oc set sa deployment depolyName saName 
+	
+	Role:-
+	 - This is on namespace/project level (local).
+	   admin, view, edit, basic-user 
+	   
+	Cluster Role:-
+	 - This is cluster level 
+	   cluster-admin, cluster-reader, cluster-status, self-provisioner etc 
+	   
+	  namespace Vs Cluster ?
+
+    BookMyShow - [avl,ui,booking-app,payment-app, notification-app etc]
+    citi.com (banking service)	
+	
+	These application running on OCP cluster.
+	Cluster - master/worker nodes 
+	        - master01-03.ocp4.example.com
+			- worker01-50.ocp4.example.com 
+		namespace same as project 
+		
+ - Authenticating API Requests
+   - TOken based authentication via OAuth
+     
+	 Login to OCP cluster via token (cluster-admin access).
+      $ oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+     
+	 Created/enable user/groups via htpassword (local acess - Not like LDAP/AD levle).
+	  
+      Step-1# Create database (Local) using htpasswd utility.
+       mkdir work ; cd work 
+       htpasswd --help 
+       htpasswd -c -B -b htpasswd-upload-file user1 redhat 
+       htpasswd    -B -b htpasswd-upload-file user2 redhat
+       htpasswd    -B -b htpasswd-upload-file user3 redhat
+       htpasswd    -B -b htpasswd-upload-file user4 redhat
+       htpasswd    -B -b htpasswd-upload-file user5 redhat
+      
+      
+      Step-2# Login to OCP cluster as "cluster-admin" and create secretto store/save file "htpasswd-upload-file".
+      $ oc login -u admin -p redhatocp https://api.ocp4.example.com:6443 
+      $ oc whoami 
+      $ oc version 
+      $ oc get nodes 
+      $ oc get clusterversion 
+      $ oc whoami -t
+      $ oc whoami --show-console 
+      https://console-openshift-console.apps.ocp4.example.com 
+      
+      $ oc create secret <double tab>
+      docker-registry   (any registry - keep it confidential) 
+      generic           ( from file,literal -> variables )
+      tls               ( TLS certificate )
+      $ oc create secret generic secret-sre --from-file htpasswd=htpasswd-upload-file -n openshift-config 
+      $ oc get secret secret-sre -n openshift-config
+      $ oc get secret secret-sre -n openshift-config -o yaml 
+       
+	   
+      Step-3# Update OAuth service (Identity Broker service w.r.t OpenShift).
+      $ oc get oauth cluster 
+      $ oc get oauth cluster -o yaml 
+      $ oc get oauth cluster -o yaml > oauth.yaml 	 
+      
+    Main Flow:-
+    Request for Authentication :- OAuth -> OpenShift-apiserver (proxy) -> kube-apiserver -> [etcd/controller/scheduler]
+	Responce from server:- kube-apiserver -> openshift-apiserver -> Oauth 
+	 
+	 
+	 "CLient Certificate" based authentication via "X.509 client Certificate"
+      ***********************************************************************
+	  - Get the "kubeconfig" & "kubeadmin-password" files.  
+	  $ ssh lab@utility 
+	  $ whoami
+	  lab 
+	  $ cd /home/lab/ocp4/auth 
+	  $ ls 
+	  kubeconfig kubeadmin-password
+	  $ exit
+	  $ whoami 
+	  student 
+	  $ hostname -f 
+	  workstation.lab.example.com 
+	  $ scp -r lab@utility:/home/lab/ocp4/auth/kube* .
+	  $ pwd
+	  $ whoami 
+	  $ ls
+	  kubeconfig kubeadmin-password
+      ***********************************************************************	  
+	  1-# Using flag "--kubeconfig"
+	  Example:-
+	   $ oc whoami --kubeconfig /home/student/kubeconfig
+	   system:admin 
+       $ oc get nodes --kubeconfig /home/student/kubeconfig
+
+      2-# Using "KUBECONFIG" variable.
+      Example:-
+        $ env | grep KUBECONFIG
+        $ export KUBECONFIG=/home/student/kubeconfig
+        $ env | grep KUBECONFIG
+         KUBECONFIG=/home/student/kubeconfig
+        $ oc whoami 
+        sys:admin	
+        $ oc get nodes 
+         Expected output -
+        $ oc whoami -t 
+		
+		Remove the access:-
+		$ unset KUBECONFIG
+        $ env | grep KUBECONFIG		
+		No outcome here 
+		
+	  
+	  3-# Using direct kubeconfig file 
+	    $ cp -rv kubeconfig ~/.kube/config 
+		$ oc whoami 
+        sys:admin	
+        $ oc get nodes 
+         Expected output -
+        $ oc whoami -t 
+	    No token 
+		
+
+
+- kubeadmin account delecting (Created durning installation )
+  $ oc get secret kubeadmin -n kube-system
+  $ oc delete secret kubeadmin -n kube-system
+
+
+$ lab start auth-providers
+
+NOte: Once work done then.
+$ lab finish auth-providers
+
+3.3. Defining and Applying Permissions with RBAC
+
+Rule - Action 
+ROle - Set of Action 
+ROleBinding - Assign role to user/group.
+
+RBAC Scope:-
+- namespace/project level  
+- cluster level 
+ 
+ Local RBAC
+ $ oc adm policy add-role-to-user/group roleName user/group -n namespaceName
+ $ oc adm policy remove-role-from-user/group roleName user/group -n namespaceName
+ 
+ Cluster RBAC:-
+ $ oc adm policy add-cluster-role-to-user/group roleName user/group 
+ $ oc adm policy remove-cluster-role-from-user/group roleName user/group
+ 
+ 
+Default Roles:-
+Local RABC (w.r.t namespace) 
+ - admin - Admin access to namespace (add new admin, provides edit/view access w.r.t namespace)
+ - edit  - Edit access (deploy application - create all k8s/ocp required resources)
+ - view  - ONly read access 
+  
+Cluster RBAC:-
+ - cluster-admin - This is like root 
+ - cluster-reader - view access to cluster level 
+ - cluster-status  - Only status info 
+ - self-provisioner - Allow to create namespace/project cross cluster.
+ 
+ 
+Users Type:-
+ - Normal 
+ - serviceaccount 
+ - system account 
+   System user names start with a system: prefix, 
+   Example:
+   such as system:admin, system:openshift-registry, and system:node:node1.example.com
+   
+Group Management:-
+$ oc adm groups new lead-developers
+$ oc adm groups add-users lead-developers user1
+ 
+--------------------------------------------
+3.4. Guided Exercise
+Define and Apply Permissions with RBAC
+$ lab start auth-rbac
+
+FYI- Once done then proceed this.
+$ lab finish auth-rbac
+
+
+
+3.5. Lab
+Configure Authentication and Authorization
+
+---------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#######################  
+Task-01:-
+ - Create/add user to OCP using htpasswd as IdP.  
+   user1-5/redhat ; group=sre_grp ; secretName=secret-sre ; IdP Name=IdP-htpasswd-SRE-Team
+   user6-10/redhat ; group=devops_grp ; secretName=secret-devops ; IdP Name=IdP-htpasswd-DevOps-Team
+   user11-20/redhat ; group=myapp_grp ; secretName=secret-myapp ; IdP Name=IdP-htpasswd-Myapp-Team
+ 
+ 
+case-00-# Remove user20 from Myapp-Team
+case-01-# Remove user5 from SRE-Team.
+case-02-# Add to DevOps-Team
+case-03-# Add new user user51 to SRE-Team
+case-04-# Add user5 to DevOps-Team
+case-05-# And verify all 
+case-06-# Perform the same at group level.
