@@ -1,0 +1,64 @@
+Unit-1# Declarative Resource Management
+ - Resource Manifests 
+ - Kustomize Overlays 
+https://github.com/cprakash2118/DO280-hpe
+
+
+POD:-
+
+vim pod.yaml 
+  apiVersion: v1 
+  kind: Pod 
+  metedata:
+    name: podName
+    namespace: namespaceName 
+    labels:
+      app: myapp	
+  spec:
+    
+	
+vim replicaSet.yaml  
+  apiVersion: apps/v1  
+  kind: ReplicaSet 
+  metedata:
+    name: 
+    namespace: namespaceName 
+  spec:
+    replicas: 2
+	selector:
+	  matchLabels:
+	    app: myapp 
+    template: 
+	  metadata (POD opcy)
+-------------------------------------------	  
+1- Pod 
+2- ReplicaSet
+3- Deployment 
+4- StatefulSet (Stateful Application - performance/network/etc)
+5- DaemonSet 
+6- secret 
+7- configmap 
+8- service 
+9- route 
+10- namespace 
+
+
+Deploy application:-
+ $ oc new-app --name myapp httpd 
+ $ oc get pods 
+ $ oc get svc 
+ $ oc get deployment 
+ $ oc get replicaSet
+ When expose service then application will be available from OUtside also 
+ $ oc get route 
+
+
+=======================================
+Imperative Versus Declarative Commands
+
+$ oc create deployment db-pod --port 3306 --image registry.ocp4.example.com:8443/rhel9/mysql-80:1-108 --dry-run=client -o yaml > data.yaml 
+
+$ oc apply/create/replace  -f data.yaml --dry-run=server --validate=true 
+
+  
+
